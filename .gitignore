@@ -1,0 +1,41 @@
+# ==========================
+# 🔒 Environment Variables
+# ==========================
+.env
+.env.local
+.env.*.local
+
+# ==========================
+# 📦 Dependencies
+# ==========================
+node_modules/
+package-lock.json
+
+# ==========================
+# ⚙️ Build output
+# ==========================
+dist/
+.vite/
+*.log
+
+# ==========================
+# 🧠 IDE / Editor / OS files
+# ==========================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ==========================
+# 🧹 Misc
+# ==========================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================
+# 🖼️ Optional cache folders
+# ==========================
+.cache/
+*.temp/
