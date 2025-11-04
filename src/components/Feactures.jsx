@@ -30,7 +30,7 @@ export default function FeatureSelector() {
 
   return (
     <section
-      className="relative w-full h-screen flex flex-col justify-between overflow-hidden text-white mt-20"
+      className="relative w-full h-screen flex flex-col justify-between overflow-hidden text-white mt-10"
       style={{
         backgroundImage: `url(${current.image})`,
         backgroundSize: "cover",

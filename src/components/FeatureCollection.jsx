@@ -40,7 +40,7 @@ function getBadgeColor(type) {
 
 export default function FeatureCollection() {
   return (
-    <section className="max-w-screen-xl mx-auto mt-10 px-4 py-8 flex flex-col ">
+    <section className="max-w-screen-xl mx-auto  px-4 py-8 flex flex-col ">
       <div className="">
         <h2 className="text-3xl md:text-6xl font-thin ">Feature Collection</h2>
         <p className="max-w-xl mt-4 text-sm md:text-base text-gray-500">

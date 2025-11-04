@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -66,7 +67,7 @@ const products = [
 
 export default function Collections() {
   return (
-    <section className="w-full mx-auto mt-14 px-4 py-8 flex flex-col ">
+    <section className="w-full mx-auto mt-10 px-4 py-8 flex flex-col mb-10 ">
       <div className="text-center mb-8 space-y-4S">
         <h2 className="text-3xl md:text-6xl font-thin">Colletions</h2>
         <p className="mt-4 text-sm md:text-base text-gray-500 text-center">
@@ -88,21 +89,25 @@ export default function Collections() {
       >
         {products.map((product) => (
           <SwiperSlide key={product.id}>
-            <div className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-56 md:h-64 object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col items-center justify-center text-center p-4">
-                <h3 className="text-white text-lg md:text-xl font-semibold">
-                  {product.name}
-                </h3>
-                <p className="text-white text-sm md:text-base mt-1">
-                  {product.pieces}
-                </p>
-              </div>
-            </div>
+            <Link to={`./products/ProductsCard`}>
+              <button>
+                <div className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-56 md:h-64 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col items-center justify-center text-center p-4">
+                    <h3 className="text-white text-lg md:text-xl font-semibold">
+                      {product.name}
+                    </h3>
+                    <p className="text-white text-sm md:text-base mt-1">
+                      {product.pieces}
+                    </p>
+                  </div>
+                </div>
+              </button>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
