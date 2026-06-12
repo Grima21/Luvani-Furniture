@@ -15,9 +15,12 @@ export default function ProductoCard({ product }) {
   }).format(product.price);
 
   return (
-    // 💡 El div externo SÓLO tiene el contenido de UNA tarjeta
-    <div className="max-w-lg h-[740px]">
-      <div className="w-[540px] h-96 overflow-hidden rounded-md bg-gray-100">
+    // ✅ CORRECCIÓN 1: Usar w-full para que ocupe todo el ancho de su columna.
+    // Se elimina la altura fija (h-[740px]) para que sea más flexible.
+    <div className="w-full ">
+      {/* // ✅ CORRECCIÓN 2: Usar w-full aquí también para que la imagen se adapte */}
+      {/* al contenedor. */}
+      <div className="w-full h-96 overflow-hidden rounded-md bg-gray-100">
         <img
           src={product.image}
           alt={product.name}
@@ -30,9 +33,7 @@ export default function ProductoCard({ product }) {
         </span>
         <h3 className="text-xl mt-1">{product.name}</h3>
         <p className="text-lg mt-2">{formattedPrice}</p>{" "}
-        {/* 💡 Usar formattedPrice */}
         <div className="flex mt-6 gap-3">
-          {/* ... etiquetas ... */}
           <div className="bg-stone-200 p-1 rounded-xl flex justify-center">
             <span className="text-black text-xs text-center">
               Contract Grade

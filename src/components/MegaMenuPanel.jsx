@@ -14,7 +14,7 @@ export default function MegaMenuPanel({ panelSections }) {
       {panelSections.map((section, sectionIndex) => (
         <div key={sectionIndex}>
           {/*Titulo de la columna*/}
-          <h4 className="text-sm mb-3 ">{section.title}</h4>
+          <h4 className="text-sm mb-3 font-semibold ">{section.title}</h4>
 
           <ul className="space-y-2 text-sm">
             {section.links.map((linkItem, linkIndex) => (

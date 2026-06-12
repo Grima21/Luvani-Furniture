@@ -1,68 +1,91 @@
 import { Fragment, useState } from "react";
-import { User, Truck, ShoppingCart, MapPin } from "lucide-react";
+import {
+  User,
+  Truck,
+  ShoppingCart,
+  MapPin,
+  ChevronRight,
+  X,
+  Menu,
+} from "lucide-react";
 import { Popover, PopoverPanel, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { PANEL_DATA } from "../Data/navData";
 import MegaMenuPanel from "./MegaMenuPanel";
 
 export default function Navbar() {
-  const [hovered, setHovered] = useState(null);
-
   const navItems = Object.keys(PANEL_DATA);
 
+  const [hovered, setHovered] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const items = [
+    {
+      title: "Account",
+      icon: User,
+      path: "/Login",
+    },
+    {
+      title: "Track Order",
+      icon: Truck,
+    },
+    {
+      title: "Cart",
+      icon: ShoppingCart,
+    },
+  ];
+  // console.log(isMenuOpen);
   return (
-    <header className="relative z-30 w-full h-16 pt-6 flex items-center justify-center md:pt-20 ">
-      <section className="w-full mx-auto flex flex-col items-center justy gap-4">
+    <header
+      id="Home"
+      className="relative z-30 w-full h-16 pt-6 flex items-center justify-center md:pt-20 "
+    >
+      <section className="w-full mx-auto flex flex-col items-center  gap-4">
         {/**(Contenido superior:Logo, iconos) */}
-        <div className="w-full max-w-[1600px] mx-auto  flex items-center justify-center relative mt-9">
+        <div className="w-full max-w-[1600px] mx-auto flex items-center justify-end   relative mt-9">
+          {/* boton movil */}
+
+          <button
+            className="fixed left-4 flex items-center justify-center z-50 rounded-lg p-2 text-black md:hidden "
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Menu size={24} />
+          </button>
+
+          {isMenuOpen && (
+            <div className="fixed inset-0 z-30 bg-black/50 lg:hidden"></div>
+          )}
+
           <a
-            className="text-4xl font-semibold text-center text-black tracking-widest"
-            href="#"
+            className="absolute left-1/2 top-0 -translate-x-1/2 text-4xl font-semibold text-center text-black tracking-widest"
+            href="Home"
           >
             Luvani
           </a>
 
-          {/* Right aligned icons with gap-2 between them */}
-          <div className="absolute top-1 -right-1 flex items-center gap-9 text-black">
-            <a
-              href=""
-              className="flex flex-col items-center gap-1 text-black hover:text-gray-600"
-            >
-              <User />
-              <span className="text-xs">Account</span>
-            </a>
-            <a
-              href=""
-              className="flex flex-col items-center gap-1 text-black hover:text-gray-600"
-            >
-              <Truck />
-              <span className="text-xs">Track Order</span>
-            </a>
-            <a
-              href=""
-              className="flex flex-col items-center gap-1 text-black hover:text-gray-600"
-            >
-              <ShoppingCart />
-              <span className="text-xs">Cart</span>
-            </a>
-            <a
-              href=""
-              className="flex flex-col items-center gap-1 text-black hover:text-gray-600"
-            >
-              <MapPin />
-              <span className="text-xs">Store</span>
-            </a>
+          <div className="flex items-center gap-6 text-black cursor-pointer">
+            {items.map((item, index) => (
+              <Link
+                key={index}
+                to={item.path}
+                className="hidden md:flex items-center gap-2 p-2 hover-bg-gray-100 runded-leg text-black "
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="hidden lg:block text-xs">{item.title}</span>
+              </Link>
+            ))}
           </div>
         </div>
 
         {/**Barra de navegacion inferiro (Mega menu) */}
 
-        <div className="w-full h-12 mx-auto mt-6 flex items-center justify-center border-t-2 border-b-2 border-gray-300">
+        <div className="w-full h-12 hidden  mx-auto mt-6 md:flex items-center justify-center border-t-2 border-b-2 border-gray-300">
           <nav className="ml-10">
             <ul className="flex gap-10 text-sm font-medium">
+              {}
               {navItems.map(
                 (
-                  item //'item' es ahora la clave, ej:"NEW"*
+                  item, //'item' es ahora la clave, ej:"NEW"*
                 ) => (
                   <li key={item} className="relative">
                     <Popover>
@@ -107,11 +130,45 @@ export default function Navbar() {
                       )}
                     </Popover>
                   </li>
-                )
+                ),
               )}
             </ul>
           </nav>
         </div>
+        {isMenuOpen && (
+          <div className="md:hidden fixed inset-x-0 top-16 z-40 max-h-[calc(100vh-4rem)] overflow-y-auto bg-white shadow-2xl border-t border-gray-200">
+            <nav className="w-full py-5 px-3">
+              <div className="mb-4 flex items-center justify-between px-2">
+                <span className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-700">
+                  Menu
+                </span>
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <ul className="space-y-2">
+                {navItems.map((item) => (
+                  <li key={item}>
+                    <Link
+                      to={`/${item
+                        .toLowerCase()
+                        .replace(/ & /g, "-")
+                        .replace(/ /g, "-")}`}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-black uppercase transition hover:bg-gray-100"
+                    >
+                      <span>{item}</span>
+                      <ChevronRight size={16} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        )}
       </section>
     </header>
   );

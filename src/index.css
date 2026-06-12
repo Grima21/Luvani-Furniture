@@ -9,12 +9,10 @@
   h2 {
     @apply font-cormorant;
   }
-  ,
   h3 {
     @apply font-sansita;
   }
   p,
-  ,
   li {
     @apply font-inter;
   }

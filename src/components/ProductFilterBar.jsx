@@ -10,7 +10,6 @@ const FILTERS_LIST = [
   { name: "Color", icon: null },
   { name: "Wood Finish", icon: null },
 ];
-// --- FIN DATOS DE FILTROS ---
 
 // Este componente recibe las funciones de manejo de estado como props
 export default function ProductFilterBar({ openFilter, setOpenFilter }) {
@@ -21,7 +20,7 @@ export default function ProductFilterBar({ openFilter, setOpenFilter }) {
 
   return (
     <div className="w-full mt-5 mb-5">
-      {/* Barra de filtros superiores (Tu UI principal) */}
+      {/* Barra de filtros superiores  */}
       <div className="flex flex-wrap gap-3 mb-6">
         {FILTERS_LIST.map((filter) => (
           <button
@@ -44,8 +43,6 @@ export default function ProductFilterBar({ openFilter, setOpenFilter }) {
           All filters
         </button>
       </div>
-
-      {/* NO incluye la lógica de paneles desplegables CheckboxGrid/FilterPanel aquí */}
     </div>
   );
 }

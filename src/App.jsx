@@ -1,30 +1,26 @@
-// src/App.jsx (CÓDIGO CORREGIDO Y COMPLETO)
-
 import Home from "./pages/Home";
-import NewPage from "./pages/NewPage"; // Asegúrate de que existe
-import FurniturePage from "./pages/FunirturePage"; // Asegúrate de que existe
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import NewPage from "./pages/NewPage";
+import FurniturePage from "./pages/FunirturePage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import { Route, Routes } from "react-router-dom"; // IMPORTANTE: Importar Routes y Route
-
+import { Route, Routes } from "react-router-dom";
 function App() {
   return (
     <>
-      <Navbar />
-
       <Routes>
         <Route path="/" element={<Home />} />
-
-        {/* 💡 ESTA RUTA DEBE COINCIDIR CON LA URL DEL NAVEGADOR CUANDO FALLA EL MENU */}
-        <Route path="/new-furniture" element={<NewPage />} />
-
-        {/* Y esta ruta debe coincidir con la URL del menú MegaMenuPanel.jsx */}
+        <Route path="/home" element={<Home />} />
+        <Route path="/new/furniture" element={<NewPage />} />
         <Route path="/category/new-furniture" element={<NewPage />} />
-
-        <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
+        <Route
+          path="*"
+          element={<div className="p-8 text-center text-xl">404 Not Found</div>}
+        />
       </Routes>
-
-      <Footer />
     </>
   );
 }

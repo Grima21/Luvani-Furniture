@@ -18,7 +18,7 @@ export default function ProductGallery({ products }) {
 
   return (
     // Cuadrícula que utiliza el map para renderizar las tarjetas
-    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+    <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4 mt-6">
       {products.map((product) => (
         // El componente ProductCard recibe el objeto individual
         <ProductoCard key={product.id} product={product} />
