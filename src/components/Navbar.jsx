@@ -12,12 +12,13 @@ import { Popover, PopoverPanel, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { PANEL_DATA } from "../Data/navData";
 import MegaMenuPanel from "./MegaMenuPanel";
-
+import CartSidebar from "./CartSideBar";
 export default function Navbar() {
   const navItems = Object.keys(PANEL_DATA);
 
   const [hovered, setHovered] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const items = [
     {
@@ -32,6 +33,7 @@ export default function Navbar() {
     {
       title: "Cart",
       icon: ShoppingCart,
+      isCartButton: true,
     },
   ];
   // console.log(isMenuOpen);
@@ -64,16 +66,37 @@ export default function Navbar() {
           </a>
 
           <div className="flex items-center gap-6 text-black cursor-pointer">
-            {items.map((item, index) => (
-              <Link
-                key={index}
-                to={item.path}
-                className="hidden md:flex items-center gap-2 p-2 hover-bg-gray-100 runded-leg text-black "
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="hidden lg:block text-xs">{item.title}</span>
-              </Link>
-            ))}
+            {items.map((item, index) => {
+              // 💡 Cambiado ( por { aquí
+              if (item.isCartButton) {
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setIsCartOpen(true)}
+                    className="hidden md:flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg text-black bg-transparent border-none outline-none"
+                  >
+                    <item.icon className="w-5 h-5" />
+                    <span className="hidden lg:block text-xs">
+                      {item.title}
+                    </span>{" "}
+                    {/* 💡 Corregido item.title */}
+                  </button>
+                );
+              }
+
+              // 💡 Agregado return para el caso normal
+              return (
+                <Link
+                  key={index}
+                  to={item.path}
+                  className="hidden md:flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg text-black"
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span className="hidden lg:block text-xs">{item.title}</span>
+                </Link>
+              );
+            })}{" "}
+            {/* 💡 Cerrado con } y ) */}
           </div>
         </div>
 
@@ -170,6 +193,7 @@ export default function Navbar() {
           </div>
         )}
       </section>
+      <CartSidebar isOpen={isCartOpen} setIsOpen={setIsCartOpen} />
     </header>
   );
 }
