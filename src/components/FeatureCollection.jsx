@@ -1,32 +1,5 @@
 import { Badge } from "lucide-react";
-
-const feactureProducts = [
-  {
-    id: 1,
-    name: "Verde Modular Chair",
-    price: "$3.999",
-    image: "./img/Feature1.jpg",
-    Badge: "New",
-    materials: ["Coper Frame", "Premiun Velvet"],
-  },
-  {
-    id: 2,
-    name: "Terracotta Cloud Chair",
-    price: "€5,250",
-    image: "./img/Feature2.jpg",
-    badge: "New",
-    materials: ["Copper Frame", "Terracotta Velvet"],
-  },
-
-  {
-    id: 3,
-    name: "Sage Copper Lounge",
-    price: "€4,675",
-    image: "./img/Feature3.jpg",
-    badge: "Limited",
-    materials: ["Copper Frame", "Sage Velvet"],
-  },
-];
+import { useProductos } from "../hooks/useProductos";
 
 function getBadgeColor(type) {
   const color = {
@@ -39,19 +12,47 @@ function getBadgeColor(type) {
 }
 
 export default function FeatureCollection() {
+  // ✅ EL CAMBIO CLAVE: El hook ahora vive DENTRO del componente
+  const { productos } = useProductos();
+  console.log("1. Datos en 'productos':", productos);
+
+  if (!productos) {
+    console.log(
+      "-> Detenido en 'if (!productos)' porque aún es undefined o null",
+    );
+    return null;
+  }
+
+  // Filtrar los productos
+  const newProducts = productos.filter(
+    (product) =>
+      product.badge === "New" ||
+      product.badge === "Exclusive" ||
+      product.badge === "Limited",
+  );
+
+  // 🕵️ Diagnóstico 2: ¿Cómo quedó el filtro?
+  console.log("2. Productos filtrados con 'New':", newProducts);
+
+  if (newProducts.length === 0) {
+    console.log(
+      "-> Detenido en 'newProducts.length === 0' porque ningún producto coincide",
+    );
+    return null;
+  }
   return (
-    <section className="max-w-screen-xl mx-auto  px-4 py-8 flex flex-col ">
-      <div className="">
-        <h2 className="text-3xl md:text-6xl font-thin ">Feature Collection</h2>
+    <section className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col">
+      <div>
+        <h2 className="text-3xl md:text-6xl font-thin">Feature Collection</h2>
         <p className="max-w-xl mt-4 text-sm md:text-base text-gray-500">
           Discover our most beloved pieces, each crafted with meticulous
-          attention to detail and timeles design principales.
+          attention to detail and timeless design principles.
         </p>
       </div>
 
       {/* Responsive grid: 1 column on mobile, 2 on small, 3 on large */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 w-full">
-        {feactureProducts.map((product) => {
+        {newProducts.map((product) => {
           const badgeText = product.badge || product.Badge;
           return (
             <div
@@ -71,11 +72,11 @@ export default function FeatureCollection() {
               {badgeText && (
                 <div
                   className={`absolute left-4 top-4 ${getBadgeColor(
-                    badgeText
+                    badgeText,
                   )} text-white text-xs sm:text-sm px-3 py-1 rounded-full flex justify-center items-center gap-1`}
                 >
                   <Badge size={12} />
-                  <span className="">{badgeText}</span>
+                  <span>{badgeText}</span>
                 </div>
               )}
 

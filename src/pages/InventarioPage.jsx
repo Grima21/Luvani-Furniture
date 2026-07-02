@@ -1,10 +1,59 @@
 import { useProductos } from "../hooks/useProductos";
 import { NavbarAdmin } from "../components/NavbarAdmin";
 import { Search, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
+import { useNavigate, Link } from "react-router-dom";
 
 export function InventarioPage() {
+  const [cargando, setCargando] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const verificarAccesoAdmin = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      console.log("1. Usuario autenticado ID:", user?.id);
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
+      const { data: perfil, error } = await supabase
+        .from("perfiles")
+        .select("rol")
+        .eq("id", user.id)
+        .single();
+
+      console.log(
+        "2. Perfil devuelto de Supabase:",
+        perfil,
+        "Error si hay:",
+        error,
+      );
+
+      if (error) {
+        console.error("Error obteniendo perfil:", error);
+        alert(
+          "Ocurrió un error al verificar el perfil. Intenta nuevamente más tarde.",
+        );
+        navigate("/home");
+        return;
+      }
+
+      if (!perfil || perfil.rol !== "admin") {
+        alert(
+          "Acceso denegado. No tienes permisos para acceder a esta pagina.",
+        );
+        navigate("/home");
+      } else {
+        setCargando(false);
+      }
+    };
+    verificarAccesoAdmin();
+  }, [navigate]);
+
   const [productoDelete, setProductoDelete] = useState(null);
   const { productos, loading, refrescarProductos } = useProductos();
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,6 +85,16 @@ export function InventarioPage() {
       console.log("Error al eliminar producto", error);
     }
   };
+
+  if (cargando) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fbf9f4]">
+        <p className="text-sm font-medium text-gray-500 animate-pulse">
+          Verificando credenciales de seguridad...
+        </p>
+      </div>
+    );
+  }
   return (
     <section>
       <NavbarAdmin />

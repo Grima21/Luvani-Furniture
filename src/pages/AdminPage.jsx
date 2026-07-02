@@ -6,12 +6,52 @@ import { Description } from "@headlessui/react";
 import { useProductos } from "../hooks/useProductos";
 import { LayoutGrid, Box } from "lucide-react";
 import { NavbarAdmin } from "../components/NavbarAdmin";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function AdminPage() {
   const [error, setError] = useState("");
   const [imagePreview, setImagePreview] = useState("/img/pistacho-sofa.jpg");
   const [productDelete, setProductDelete] = useState(null);
   const { productos, loading, refrescarProductos } = useProductos();
+  const [cargando, setCargando] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const verificarAccesoAdmin = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      console.log("1. Usuario autenticado ID:", user?.id);
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
+      const { data: perfil } = await supabase
+        .from("perfiles")
+        .select("rol")
+        .eq("id", user.id)
+        .single();
+
+      console.log(
+        "2. Perfil devuelto de Supabase:",
+        perfil,
+        "Error si hay:",
+        error,
+      );
+
+      if (!perfil || perfil.rol !== "admin") {
+        alert(
+          "Acceso denegado. No tienes permisos para acceder a esta pagina.",
+        );
+        navigate("/home");
+      } else {
+        setCargando(false);
+      }
+    };
+    verificarAccesoAdmin();
+  }, [navigate]);
+
   const openDeleteModal = (id) => {
     setProductDelete(id);
   };
@@ -148,6 +188,15 @@ export default function AdminPage() {
     }
   }
 
+  if (cargando) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#fbf9f4]">
+        <p className="text-sm font-medium text-gray-500 animate-pulse">
+          Verificando credenciales de seguridad...
+        </p>
+      </div>
+    );
+  }
   return (
     <section className="w-full h-full mx-auto">
       <NavbarAdmin />
@@ -189,15 +238,21 @@ export default function AdminPage() {
                   >
                     Categoria
                   </label>
-                  <input
+                  <select
                     name="category"
                     value={formDatas.category}
                     id="category"
                     placeholder="Madera de roble"
                     type="text"
                     onChange={handleChange}
-                    className="w-full h-10 rounded-xl border border-border shadow-sm  px-4 mb-6"
-                  />
+                    className="w-full h-10 rounded-xl border border-border shadow-sm  px-4 mb-6 bg-white"
+                  >
+                    <option value="">Selecciona una categoria</option>
+                    <option value="madera roble">Madera de roble</option>
+                    <option value="sofas">Sofas</option>
+                    <option value="Madera premium">Madera Premium</option>
+                    <option value="decoracion">Decoracion</option>
+                  </select>
                 </div>
 
                 <div className="w-full">

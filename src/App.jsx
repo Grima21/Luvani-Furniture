@@ -15,7 +15,7 @@ function App() {
     <CartProvider>
       <Routes>
         {/* Páginas limpias (SIN Navbar ni Footer públicos) */}
-        <Route path="/Login" element={<Login />} />
+        <Route path="/" element={<Home />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/Checkout" element={<Checkout />} />
 
@@ -26,6 +26,9 @@ function App() {
         <Route path="/category/new-furniture" element={<NewPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/inventario" element={<InventarioPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/checkout" element={<Checkout />} />
 
         <Route
           path="*"

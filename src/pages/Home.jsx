@@ -16,13 +16,12 @@ export default function Home() {
       <Navbar />
       <Hero />
 
-      {/* SECCIÓN NUEVA: NUESTROS MUEBLES */}
-      <section className="p-8 max-w-6xl mx-auto">
+      {/* <section className="p-8 max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-6 font-serif uppercase tracking-wider text-gray-900">
           Nuestros Productos
         </h2>
 
-        {/* Contenedor en malla (Grid) para que se vean uno al lado del otro */}
+ 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {listadoProductos.map((producto) => (
             <div
@@ -43,7 +42,6 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* AL DAR CLIC AQUÍ, ENVIAMOS EL MUEBLE REAL A LA CENTRAL GLOBAL */}
               <button
                 onClick={() => addToCart(producto)}
                 className="mt-4 w-full bg-black text-white py-2 text-xs uppercase tracking-wider font-medium hover:bg-gray-800 transition-colors rounded"
@@ -53,7 +51,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
       <FeatureCollection />
       <Collections />
       <FeatureSelector />

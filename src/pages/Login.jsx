@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
@@ -8,7 +8,6 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -38,13 +37,32 @@ export default function Login() {
     setIsLoading(true);
 
     try {
-      const { error: supabaseError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error: supabaseError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
       console.log("error", supabaseError);
       if (supabaseError) {
         setError(supabaseError.message);
+        return;
+      }
+
+      const { data: perfil, error: perfilError } = await supabase
+        .from("perfiles")
+        .select("rol")
+        .eq("id", data.user.id)
+        .single();
+
+      if (perfilError || !perfil) {
+        console.error("Error al obtener el pefil", perfilError);
+        navigate("/home");
+        return;
+      }
+
+      if (perfil.rol === "admin") {
+        alert("Bienvenido al panel de control, Grimlado!");
+        navigate("/admin");
         return;
       }
 
@@ -66,7 +84,7 @@ export default function Login() {
         provider: "google",
         options: {
           // Lo mandamos al Home igual que en el registro
-          redirectTo: `${window.location.origin}/Home`,
+          redirectTo: `${window.location.origin}/home`,
         },
       });
 
